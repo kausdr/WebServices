@@ -1,0 +1,4 @@
+package produto
+
+interface ProductRepository {
+}
