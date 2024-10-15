@@ -1,4 +1,0 @@
-package produto
-
-interface ProductRepository {
-}
