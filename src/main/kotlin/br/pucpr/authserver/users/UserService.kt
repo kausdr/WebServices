@@ -16,8 +16,7 @@ import org.springframework.stereotype.Service
 class UserService(
     val repository: UserRepository,
     val roleRepository: RoleRepository,
-    val jwt: Jwt,
-    val passwordEncoder: PasswordEncoder
+    val jwt: Jwt
 ) {
     fun insert(user: User): User {
         if (user.id != null)
