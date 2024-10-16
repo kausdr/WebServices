@@ -1,4 +1,17 @@
-package br.pucpr.authserver.produto
+package br.pucpr.authserver.products.responses
 
-class ProductResponse {
+import br.pucpr.authserver.products.Product
+
+data class ProductResponse(
+    val id: Long?,
+    val name: String,
+    val description: String,
+    val price: Double
+) {
+    constructor(product: Product) : this(
+        id = product.id,
+        name = product.name,
+        description = product.description,
+        price = product.price
+    )
 }
