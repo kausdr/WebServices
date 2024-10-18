@@ -1,4 +1,9 @@
 package br.pucpr.authserver.carrinho
 
-interface CarrinhoRepository {
+import br.pucpr.authserver.products.Product
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
+
+@Repository
+interface CarrinhoRepository : JpaRepository<Carrinho, Long> {
 }

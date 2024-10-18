@@ -1,4 +1,14 @@
 package br.pucpr.authserver.carrinho
 
-class Carrinho {
-}
+import br.pucpr.authserver.products.Product
+import jakarta.persistence.*
+
+@Entity
+data class Carrinho(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long? = null,
+
+    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    val products: MutableList<Product> = mutableListOf()
+)
