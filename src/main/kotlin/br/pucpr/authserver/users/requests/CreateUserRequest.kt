@@ -15,7 +15,7 @@ data class CreateUserRequest(
     val email: String?,
 
     @field:NotNull
-    @field:Size(min=4)
+    @field:Size(min = 8 , max = 32)
     val password: String?
 ) {
     fun toUser() = User(

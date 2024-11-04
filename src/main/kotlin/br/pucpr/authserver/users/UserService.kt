@@ -4,6 +4,7 @@ import br.pucpr.authserver.errors.BadRequestException
 import br.pucpr.authserver.errors.NotFoundException
 import br.pucpr.authserver.roles.RoleRepository
 import br.pucpr.authserver.security.Jwt
+import br.pucpr.authserver.users.requests.LoginRequest
 import br.pucpr.authserver.users.responses.LoginResponse
 import br.pucpr.authserver.users.responses.UserResponse
 import org.slf4j.LoggerFactory
@@ -28,10 +29,10 @@ class UserService(
     }
 
     fun list(sortDir: SortDir, role: String?): List<User> {
-        if (role != null) {
-            return repository.findByRole(role)
+        return if (role != null) {
+            repository.findByRole(role)
         } else {
-            return when (sortDir) {
+            when (sortDir) {
                 SortDir.ASC -> repository.findAll()
                 SortDir.DESC -> repository.findAll(Sort.by("id").reverse())
             }
@@ -49,6 +50,7 @@ class UserService(
             throw BadRequestException("Não é possível excluir o último administrador!")
         }
 
+        log.info("User deleted: id={} name={}", user.id, user.name)
         repository.delete(user)
         return user
     }
@@ -76,16 +78,15 @@ class UserService(
         return true
     }
 
-    fun login(email: String, password: String): LoginResponse? {
-        val user = repository.findByEmail(email) ?: return null
-        if (user.password != password) return null
+    fun login(credentials: LoginRequest): LoginResponse? {
+        val user = repository.findByEmail(credentials.email!!) ?: return null
+        if (user.password != credentials.password) return null
         log.info("User logged in. id={} name={}", user.id, user.name)
         return LoginResponse(
             token = jwt.createToken(user),
             user = UserResponse(user)
         )
     }
-
 
     companion object {
         private val log = LoggerFactory.getLogger(UserService::class.java)

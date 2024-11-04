@@ -9,8 +9,8 @@ interface UserRepository: JpaRepository<User, Long> {
     fun findByEmail(email: String): User?
 
     @Query(
-        "select u from User u " +
-        " join u.roles r" +
+        "select distinct u from User u " +
+        " join fetch u.roles r" +
         " where r.name = :role" +
         " order by u.name"
     )

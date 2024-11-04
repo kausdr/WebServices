@@ -6,8 +6,8 @@ import org.springframework.boot.runApplication
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
-class AuthserverApplication
+class AuthServerApplication
 
 fun main(args: Array<String>) {
-	runApplication<AuthserverApplication>(*args)
+	runApplication<AuthServerApplication>(*args)
 }

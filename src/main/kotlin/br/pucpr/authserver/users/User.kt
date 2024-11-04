@@ -2,25 +2,26 @@ package br.pucpr.authserver.users
 
 import br.pucpr.authserver.roles.Role
 import jakarta.persistence.*
+import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotNull
 
 @Entity
-@Table(name="tbUser")
-class User(
+@Table(name = "tblUser")
+class User (
     @Id @GeneratedValue
     var id: Long? = null,
 
     @NotNull
     var name: String,
 
-    @NotNull
-    @Column(unique=true)
+    @Email
+    @Column(unique = true, nullable = false)
     var email: String,
 
-    @NotNull
+    @Column(length = 32, nullable = false)
     var password: String,
 
-    @ManyToMany()
+    @ManyToMany
     @JoinTable(
         name = "UsersRole",
         joinColumns = [JoinColumn(name="idUser")],

@@ -12,7 +12,7 @@ class Role(
     var id: Long? = null,
 
     @Column(nullable = false, unique = true)
-    var name: String,
+    var name: String = "",
 
     @NotBlank
     var description: String,

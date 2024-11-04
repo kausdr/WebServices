@@ -1,1 +1,1 @@
-rootProject.name = "authserver"
+rootProject.name = "WebServices"
