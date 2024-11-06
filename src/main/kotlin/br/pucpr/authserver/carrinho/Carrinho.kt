@@ -9,6 +9,14 @@ data class Carrinho(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
-    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    @Column(nullable = false)
+    val userId: Long,
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.MERGE])
+    @JoinTable(
+        name = "CarrinhoProduct",
+        joinColumns = [JoinColumn(name = "idCarrinho")],
+        inverseJoinColumns = [JoinColumn(name = "idProduct")]
+    )
     val products: MutableList<Product> = mutableListOf()
 )

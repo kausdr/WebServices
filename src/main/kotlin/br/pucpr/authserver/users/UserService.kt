@@ -87,6 +87,11 @@ class UserService(
         )
     }
 
+    fun findByEmail(email: String): User {
+        return repository.findByEmail(email)
+            ?: throw NotFoundException("Usuário com email $email não encontrado!")
+    }
+
     companion object {
         private val log = LoggerFactory.getLogger(UserService::class.java)
     }

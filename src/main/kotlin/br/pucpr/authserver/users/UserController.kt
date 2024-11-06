@@ -58,11 +58,11 @@ class UserController(
             ?.let { ResponseEntity.ok().build() }
             ?: ResponseEntity.notFound().build()
 
-    @SecurityRequirement(name="AuthServer")
     @PatchMapping("/{id}")
     @PreAuthorize("permitAll()")
+    @SecurityRequirement(name="AuthServer")
     fun update(
-        @PathVariable id: Long,
+        @PathVariable("id") id: Long,
         @RequestBody @Valid updateUserRequest: UpdateUserRequest,
         auth: Authentication
     ): ResponseEntity<UserResponse> {
@@ -77,7 +77,7 @@ class UserController(
 
     @PutMapping("/{id}/roles/{role}")
     fun grant(
-        @PathVariable id: Long,
+        @PathVariable("id") id: Long,
         @PathVariable role: String
     ): ResponseEntity<Void> =
         if (service.addRole(id, role.uppercase()))

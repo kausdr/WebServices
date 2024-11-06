@@ -1,4 +1,5 @@
 package br.pucpr.authserver.carrinho.requests
 
-class CreateCarrinhoRequest {
-}
+class CreateCarrinhoRequest(
+    val userId: Long
+)

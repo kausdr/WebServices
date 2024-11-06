@@ -30,7 +30,7 @@ class Jwt {
                 ).toDate())
                 .issuer(ISSUER)
                 .subject(it.id.toString())
-                .claim(USER_FIELD, it)
+                .claims(mapOf(USER_FIELD to it))
                 .compact()
         }
 
@@ -62,7 +62,7 @@ class Jwt {
         const val EXPIRE_HOURS = 48L
         const val ADMIN_EXPIRE_HOURS = 2L
         const val ISSUER = "PUCPR AuthServer"
-        private const val PREFIX = "Bearer"
+        private const val PREFIX = "Bearer "
         private const val USER_FIELD = "User"
 
         private fun utcNow() =

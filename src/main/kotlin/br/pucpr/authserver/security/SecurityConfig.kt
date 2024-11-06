@@ -21,8 +21,8 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector
 @Configuration
 @EnableMethodSecurity
 @SecurityScheme(
-    name="AuthServer",
-    type= SecuritySchemeType.HTTP,
+    name = "AuthServer",
+    type = SecuritySchemeType.HTTP,
     scheme = "bearer",
     bearerFormat = "JWT"
 )
