@@ -1,8 +1,7 @@
 package br.pucpr.authserver.carrinho
 
 import br.pucpr.authserver.errors.NotFoundException
-import br.pucpr.authserver.products.Product
-import br.pucpr.authserver.products.ProductRepository
+import br.pucpr.authserver.produto.ProductRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

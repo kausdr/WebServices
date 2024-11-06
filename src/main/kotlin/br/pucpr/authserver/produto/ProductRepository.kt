@@ -1,4 +1,4 @@
-package br.pucpr.authserver.products
+package br.pucpr.authserver.produto
 
 import org.springframework.data.jpa.repository.JpaRepository
 

@@ -1,7 +1,7 @@
 package br.pucpr.authserver.carrinho.responses
 
 import br.pucpr.authserver.carrinho.Carrinho
-import br.pucpr.authserver.products.responses.ProductResponse
+import br.pucpr.authserver.produto.responses.ProductResponse
 
 data class CarrinhoResponse(
     val id: Long?,

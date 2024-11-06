@@ -10,7 +10,7 @@ class CarrinhoController(
     private val service: CarrinhoService
 ) {
 
-    @PostMapping("/{cartId}/addProduto/{productId}")
+    @PostMapping("/{cartId}/produto/{productId}")
     fun addProductToCart(
         @PathVariable cartId: Long,
         @PathVariable productId: Long

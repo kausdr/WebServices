@@ -10,7 +10,6 @@ import br.pucpr.authserver.users.responses.UserResponse
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
@@ -57,7 +56,7 @@ class UserService(
 
     fun update(id: Long, name: String): User? {
         val user = repository.findByIdOrNull(id)
-            ?: throw NotFoundException("Usuário ${id} não encontrado!")
+            ?: throw NotFoundException("Usuário $id não encontrado!")
         if (user.name == name)
             return null
         user.name = name

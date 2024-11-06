@@ -1,4 +1,4 @@
-package br.pucpr.authserver.products
+package br.pucpr.authserver.produto
 
 import br.pucpr.authserver.errors.NotFoundException
 import br.pucpr.authserver.users.SortDir

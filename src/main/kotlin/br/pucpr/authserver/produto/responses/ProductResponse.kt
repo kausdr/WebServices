@@ -1,6 +1,6 @@
-package br.pucpr.authserver.products.responses
+package br.pucpr.authserver.produto.responses
 
-import br.pucpr.authserver.products.Product
+import br.pucpr.authserver.produto.Product
 
 data class ProductResponse(
     val id: Long?,
@@ -9,7 +9,7 @@ data class ProductResponse(
     val price: Double
 ) {
     constructor(product: Product) : this(
-        id = product.id,
+        id = product.id!!,
         name = product.name,
         description = product.description,
         price = product.price

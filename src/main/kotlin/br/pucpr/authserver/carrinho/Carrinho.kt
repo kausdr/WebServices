@@ -1,6 +1,6 @@
 package br.pucpr.authserver.carrinho
 
-import br.pucpr.authserver.products.Product
+import br.pucpr.authserver.produto.Product
 import jakarta.persistence.*
 
 @Entity

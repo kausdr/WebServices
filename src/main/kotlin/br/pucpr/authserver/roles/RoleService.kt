@@ -12,5 +12,4 @@ class RoleService(
 
     fun findAll(): List<Role> =
         repository.findAll(Sort.by("name"))
-
 }
