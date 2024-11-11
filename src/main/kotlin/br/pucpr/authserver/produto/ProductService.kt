@@ -55,8 +55,8 @@ class ProductService(
             repository.findByNameContainingIgnoreCase(name)
         } else {
             when (sortDir) {
-                SortDir.ASC -> repository.findAll(Sort.by("name").ascending())
-                SortDir.DESC -> repository.findAll(Sort.by("name").descending())
+                SortDir.ASC -> repository.findAll()
+                SortDir.DESC -> repository.findAll(Sort.by("id").reverse())
             }
         }
     }

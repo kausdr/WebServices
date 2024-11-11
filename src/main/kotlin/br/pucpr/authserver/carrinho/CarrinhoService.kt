@@ -2,7 +2,6 @@ package br.pucpr.authserver.carrinho
 
 import br.pucpr.authserver.errors.NotFoundException
 import br.pucpr.authserver.produto.ProductRepository
-import br.pucpr.authserver.users.User
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -15,35 +14,34 @@ class CarrinhoService(
 ) {
 
     @Transactional
-    fun createCartForUser(user: User): Carrinho {
-        val userId = user.id ?: throw IllegalArgumentException("ID do usuário é obrigatório")
-
-        if (carrinhoRepository.findByUserId(userId) != null) {
-            log.warn("Tentativa de criação de novo carrinho para usuário com ID $userId, que já possui um carrinho.")
+    fun createCartForUser(user: Long): Carrinho {
+        if (carrinhoRepository.findByUserId(user) != null) {
+            log.warn("Tentativa de criação de novo carrinho para usuário com ID $user, que já possui um carrinho.")
             throw IllegalStateException("O usuário já possui um carrinho ativo.")
         }
 
-        val novoCarrinho = Carrinho(userId = userId)
-        log.info("Criando novo carrinho para o usuário com ID $userId.")
+        val carrinhoCount = carrinhoRepository.count() + 1
+        val nomeCarrinho = "carrinho${carrinhoCount}"
+        log.info("Criando novo carrinho para o usuário com ID $user.")
 
-        val savedCart = carrinhoRepository.save(novoCarrinho)
-        log.info("Carrinho criado com sucesso para o usuário com ID $userId. ID do carrinho: ${savedCart.id}")
-        return savedCart
+        val novoCarrinho = Carrinho(userId = user, nome = nomeCarrinho)
+        log.info("Carrinho criado com sucesso para o usuário com ID $user. ID do carrinho: ${novoCarrinho.id}")
+        return carrinhoRepository.save(novoCarrinho)
     }
 
     @Transactional
-    fun addProductToCart(user: User, productId: Long): Carrinho {
-        val cart = carrinhoRepository.findByUserId(user.id!!)
-            ?: throw NotFoundException("Carrinho não encontrado para o usuário com ID ${user.id}")
+    fun addProductToCart(user: Long, productId: Long): Carrinho {
+        val cart = carrinhoRepository.findByUserId(user)
+            ?: throw NotFoundException("Carrinho não encontrado para o usuário com ID $user")
 
         val product = productRepository.findByIdOrNull(productId)
             ?: throw NotFoundException("Produto com ID $productId não encontrado!")
 
         if (!cart.products.contains(product)) {
             cart.products.add(product)
-            log.info("Produto com ID $productId adicionado ao carrinho do usuário com ID ${user.id}.")
+            log.info("Produto com ID $productId adicionado ao carrinho do usuário com ID ${user}.")
         } else {
-            log.warn("Produto com ID $productId já está no carrinho do usuário com ID ${user.id}.")
+            log.warn("Produto com ID $productId já está no carrinho do usuário com ID ${user}.")
             throw IllegalStateException("Produto já está no carrinho.")
         }
 
@@ -51,16 +49,16 @@ class CarrinhoService(
     }
 
     @Transactional
-    fun removeProductFromCart(user: User, productId: Long): Carrinho {
-        val cart = carrinhoRepository.findByUserId(user.id!!)
-            ?: throw NotFoundException("Carrinho não encontrado para o usuário com ID ${user.id}")
+    fun removeProductFromCart(user: Long, productId: Long): Carrinho {
+        val cart = carrinhoRepository.findByUserId(user)
+            ?: throw NotFoundException("Carrinho não encontrado para o usuário com ID $user")
 
         val productRemoved = cart.products.removeIf { it.id == productId }
 
         if (productRemoved) {
-            log.info("Produto com ID $productId removido do carrinho do usuário com ID ${user.id}.")
+            log.info("Produto com ID $productId removido do carrinho do usuário com ID ${user}.")
         } else {
-            log.warn("Produto com ID $productId não encontrado no carrinho do usuário com ID ${user.id}.")
+            log.warn("Produto com ID $productId não encontrado no carrinho do usuário com ID ${user}.")
             throw NotFoundException("Produto com ID $productId não encontrado no carrinho.")
         }
 
@@ -78,12 +76,18 @@ class CarrinhoService(
             ?: throw NotFoundException("Carrinho com ID $id não encontrado!")
     }
 
-    fun deleteCartForUser(user: User) {
-        val userId = user.id ?: throw IllegalArgumentException("ID do usuário é obrigatório")
-        val cart = carrinhoRepository.findByUserId(userId)
+    fun findCartByUserId(userId: Long): Carrinho {
+        return carrinhoRepository.findByUserId(userId)
             ?: throw NotFoundException("Carrinho não encontrado para o usuário com ID $userId.")
+    }
+
+    fun deleteCartForUser(user: Long) {
+        val cart = carrinhoRepository.findByUserId(user)
+            ?: throw NotFoundException("Carrinho não encontrado para o usuário com ID $user.")
+
+        cart.products.clear()
         carrinhoRepository.delete(cart)
-        log.info("Carrinho do usuário com ID $userId deletado com sucesso.")
+        log.info("Carrinho do usuário com ID $user deletado com sucesso.")
     }
 
     companion object {

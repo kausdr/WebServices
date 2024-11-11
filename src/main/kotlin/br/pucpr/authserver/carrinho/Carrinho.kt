@@ -12,6 +12,9 @@ data class Carrinho(
     @Column(nullable = false)
     val userId: Long,
 
+    @Column(nullable = false)
+    val nome: String,
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.MERGE])
     @JoinTable(
         name = "CarrinhoProduct",

@@ -76,6 +76,8 @@ class UserController(
     }
 
     @PutMapping("/{id}/roles/{role}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name="AuthServer")
     fun grant(
         @PathVariable("id") id: Long,
         @PathVariable role: String

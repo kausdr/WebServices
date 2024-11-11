@@ -1,5 +1,6 @@
 package br.pucpr.authserver.produto
 
+import br.pucpr.authserver.errors.BadRequestException
 import br.pucpr.authserver.produto.requests.CreateProductRequest
 import br.pucpr.authserver.produto.responses.ProductResponse
 import br.pucpr.authserver.users.SortDir
@@ -49,13 +50,14 @@ class ProductController(
     fun list(
         @RequestParam(required = false) name: String?,
         @RequestParam(required = false) sortDir: String?
-    ): ResponseEntity<List<ProductResponse>> {
-        val products = service.list(
+    ) =
+        service.list(
             name = name,
-            sortDir = SortDir.getByName(sortDir) ?: SortDir.ASC
-        ).map { ProductResponse(it) }
-        return ResponseEntity.ok(products)
-    }
+            sortDir = SortDir.getByName(sortDir) ?:
+                throw BadRequestException("Invalid sort dir!")
+        )
+        .map { ProductResponse(it) }
+        .let { ResponseEntity.ok(it) }
 
     @GetMapping("/{id}")
     fun findById(@PathVariable id: Long): ResponseEntity<ProductResponse> {
