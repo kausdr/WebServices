@@ -15,4 +15,4 @@ O projeto visa criar uma API para gerenciar produtos e carrinhos de compras em u
 - Controle de acesso com roles (usuários ADMIN podem criar e excluir produtos)
 
 ## Link para o Vídeo de Apresentação
-[Vídeo de apresentação do projeto](#)
+[Vídeo de apresentação do projeto](https://youtu.be/GuU_916oVao)
